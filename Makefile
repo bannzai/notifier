@@ -12,9 +12,6 @@ docker:
 	docker build -t $(APP_NAME) .
 	docker run -e PORT=$(PORT) -p $(PORT):$(PORT) --rm $(APP_NAME)
 
-heroku: docker
-	heroku container:push web
-
-deploy:
+heroku:
 	heroku stack:set container
 	git push heroku $(CURRENT_BRANCH):master
