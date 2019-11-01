@@ -1,0 +1,17 @@
+APP_NAME=notifier
+PORT=5000
+
+build:
+	go build -v -o $(APP_NAME) main.go
+
+clean:
+	rm -rf ./$(APP_NAME)
+
+docker: 
+	docker build -t $(APP_NAME) .
+	docker run -e PORT=$(PORT) -p $(PORT):$(PORT) --rm $(APP_NAME)
+
+heroku: docker
+	heroku container:push web
+
+
