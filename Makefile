@@ -1,5 +1,5 @@
 APP_NAME=notifier
-PORT=5000
+DEVPORT=5000
 CURRENT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 
 build:
@@ -10,7 +10,7 @@ clean:
 
 docker: 
 	docker build -t $(APP_NAME) .
-	docker run -e PORT=$(PORT) -p $(PORT):$(PORT) --rm $(APP_NAME)
+	docker run -e PORT=$(DEVPORT) -p $(DEVPORT):$(DEVPORT) --rm $(APP_NAME)
 
 heroku:
 	heroku stack:set container
