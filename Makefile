@@ -1,5 +1,6 @@
 APP_NAME=notifier
 PORT=5000
+CURRENT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 
 build:
 	go build -v -o $(APP_NAME) main.go
@@ -16,5 +17,4 @@ heroku: docker
 
 deploy:
 	heroku stack:set container
-	git rev-parse --abbrev-ref HEAD | xargs git push heroku 
-
+	git push heroku $(CURRENT_BRANCH):master
