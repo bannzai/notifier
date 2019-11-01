@@ -14,4 +14,7 @@ docker:
 heroku: docker
 	heroku container:push web
 
+deploy:
+	heroku stack:set container
+	git rev-parse --abbrev-ref HEAD | xargs git push heroku 
 
