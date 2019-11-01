@@ -16,7 +16,7 @@ func main() {
 		port = defaultPort
 	}
 
-	fmt.Println("Start process")
+	fmt.Printf("Start process!! port :%s", port)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello World")
 	})
