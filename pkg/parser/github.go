@@ -31,10 +31,15 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 	if err := json.Unmarshal(body, &github); err != nil {
 		return Content{}, errors.Wrapf(err, "github json decode error %s", string(body))
 	}
-	content := Content{
-		LinkURL:     github.Comment.HTMLURL,
-		UserNames:   userNames(github.Comment.Body),
-		ContentType: GitHubContent,
+	switch {
+	case github.Comment != nil:
+		content := Content{
+			LinkURL:     github.Comment.HTMLURL,
+			UserNames:   userNames(github.Comment.Body),
+			ContentType: GitHubContent,
+		}
+		return content, nil
+	default:
+		panic(fmt.Sprintf("Unexpected github content pattenr of %v", github))
 	}
-	return content, nil
 }
