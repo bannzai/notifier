@@ -2,4 +2,6 @@ module github.com/bannzai/notifier
 
 go 1.13
 
-require github.com/google/go-github v17.0.0+incompatible // indirect
+require (
+	github.com/pkg/errors v0.8.1
+)
