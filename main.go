@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/bannzai/notifier/internal"
 )
 
 const defaultPort = "5000"
@@ -20,5 +22,6 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello World")
 	})
+	http.HandleFunc("/github", internal.GitHub)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
