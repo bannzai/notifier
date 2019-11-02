@@ -10,8 +10,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-type GitHub struct {
-}
+type GitHub struct{}
 
 func NewGitHub() GitHub {
 	return GitHub{}
