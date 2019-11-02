@@ -1,3 +1,7 @@
 package driver
 
-type Driver interface{}
+import "net/http"
+
+type Driver interface {
+	Drive(r *http.Request) error
+}
