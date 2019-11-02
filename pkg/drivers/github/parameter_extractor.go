@@ -7,6 +7,6 @@ type parameter struct {
 type parameterExtractor struct {
 }
 
-func (extractor parameterExtractor) extract(url string) parameter {
-	return extract{}
+func (extractor parameterExtractor) extract(body []byte) parameter {
+	return parameter{}
 }
