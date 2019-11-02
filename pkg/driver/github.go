@@ -15,12 +15,16 @@ func (driver GitHub) Key() string {
 }
 
 func (driver GitHub) Drive(r *http.Request) error {
-	body := bytes.Buffer{}
-	_, err := body.ReadFrom(r.Body)
+	buffer := bytes.Buffer{}
+	_, err := buffer.ReadFrom(r.Body)
 	if err != nil {
 		return fmt.Errorf("Request body read error %w", err)
 	}
-	driver.parameterExtractor.extract(body.Bytes())
+
+	body := buffer.Bytes()
+
+	fmt.Printf("body: %+v\n", body)
+	driver.parameterExtractor.extract(body)
 	return nil
 }
 
