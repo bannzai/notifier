@@ -1,4 +1,4 @@
-module notify
+module github.com/bannzai/notifier
 
 go 1.13
 
