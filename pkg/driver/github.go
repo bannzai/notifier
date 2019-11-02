@@ -1,4 +1,4 @@
-package github
+package driver
 
 import (
 	"bytes"
@@ -6,15 +6,15 @@ import (
 	"net/http"
 )
 
-type Driver struct {
+type GitHub struct {
 	parameterExtractor
 }
 
-func (driver Driver) Key() string {
+func (driver GitHub) Key() string {
 	return "github"
 }
 
-func (driver Driver) Drive(r *http.Request) error {
+func (driver GitHub) Drive(r *http.Request) error {
 	body := bytes.Buffer{}
 	_, err := body.ReadFrom(r.Body)
 	if err != nil {
@@ -24,7 +24,7 @@ func (driver Driver) Drive(r *http.Request) error {
 	return nil
 }
 
-func NewDriver() Driver {
+func NewGitHub() GitHub {
 	// TODO: Input default dependency
-	return Driver{}
+	return GitHub{}
 }

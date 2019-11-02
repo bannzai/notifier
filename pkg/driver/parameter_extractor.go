@@ -1,4 +1,4 @@
-package github
+package driver
 
 type parameter struct {
 	prOrIssueURL string

@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/bannzai/notifier/pkg/drivers/github"
+	"github.com/bannzai/notifier/pkg/driver"
 )
 
 func GitHub(w http.ResponseWriter, r *http.Request) {
@@ -16,7 +16,7 @@ func GitHub(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := github.NewDriver().Drive(r); err != nil {
+	if err := driver.NewGitHub().Drive(r); err != nil {
 		log.Printf("GitHub driver error with %v", err)
 	}
 }
