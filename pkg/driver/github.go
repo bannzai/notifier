@@ -23,7 +23,7 @@ func (driver GitHub) Drive(r *http.Request) error {
 
 	body := buffer.Bytes()
 
-	fmt.Printf("body: %+v\n", body)
+	fmt.Printf("body: %+v\n", string(body))
 	driver.parameterExtractor.extract(body)
 	return nil
 }
