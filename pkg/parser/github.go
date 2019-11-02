@@ -35,8 +35,9 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 	}
 
 	content := Content{
-		LinkURL:   github.Comment.HTMLURL,
-		UserNames: userNames(github.Comment.Body),
+		LinkURL:     github.Comment.HTMLURL,
+		UserNames:   userNames(github.Comment.Body),
+		ContentType: GitHubContent,
 	}
 	return content, nil
 }
