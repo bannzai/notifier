@@ -22,7 +22,6 @@ func (parser GitHub) Parse(request *http.Request) (Content, error) {
 	if err != nil {
 		return Content{}, fmt.Errorf("Request body read error %w", err)
 	}
-
 	body := buffer.Bytes()
 	return parser.parseBody(body)
 }
@@ -32,7 +31,6 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 	if err := json.Unmarshal(body, &github); err != nil {
 		return Content{}, errors.Wrapf(err, "github json decode error %s", string(body))
 	}
-
 	content := Content{
 		LinkURL:     github.Comment.HTMLURL,
 		UserNames:   userNames(github.Comment.Body),
