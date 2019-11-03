@@ -19,13 +19,25 @@ func TestGitHub_parseBody(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "parse successfully when read truth json",
+			name: "parse successfully when read truth json for mention on comment pattern",
 			g:    GitHub{},
 			args: args{
 				body: testutil.ReadFile(t, testutil.CallerDirectoryPath(t)+"/testdata/github_comment.json"),
 			},
 			want: Content{
 				LinkURL:     "https://github.com/bannzai/notifier/pull/1#issuecomment-549011949",
+				UserNames:   []string{"bannzai"},
+				ContentType: GitHubContent,
+			},
+		},
+		{
+			name: "parse successfully when read truth json for assigned to pull-request pattern",
+			g:    GitHub{},
+			args: args{
+				body: testutil.ReadFile(t, testutil.CallerDirectoryPath(t)+"/testdata/github_assigned_pull_request.json"),
+			},
+			want: Content{
+				LinkURL:     "https://github.com/bannzai/notifier/pull/1",
 				UserNames:   []string{"bannzai"},
 				ContentType: GitHubContent,
 			},
