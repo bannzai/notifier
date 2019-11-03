@@ -39,6 +39,13 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 			ContentType: GitHubContent,
 		}
 		return content, nil
+	case github.Action == entity.GitHubActionTypeAssigned:
+		content := Content{
+			LinkURL:     github.PullRequest.HTMLURL,
+			UserNames:   []string{github.PullRequest.Assignee.Login},
+			ContentType: GitHubContent,
+		}
+		return content, nil
 	default:
 		panic(fmt.Sprintf("Unexpected github content pattenr of %v", github))
 	}
