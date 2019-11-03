@@ -20,7 +20,7 @@ func TestGitHub_parseBody(t *testing.T) {
 	}{
 		{
 			name: "parse successfully when read truth json for mention on comment pattern",
-			g:    GitHub{},
+			g:    NewGitHub(),
 			args: args{
 				body: testutil.ReadFile(t, testutil.CallerDirectoryPath(t)+"/testdata/github_comment.json"),
 			},
@@ -32,7 +32,7 @@ func TestGitHub_parseBody(t *testing.T) {
 		},
 		{
 			name: "parse successfully when read truth json for assigned to pull-request pattern",
-			g:    GitHub{},
+			g:    NewGitHub(),
 			args: args{
 				body: testutil.ReadFile(t, testutil.CallerDirectoryPath(t)+"/testdata/github_assigned_pull_request.json"),
 			},
