@@ -3,7 +3,8 @@ package parser
 type ContentType int
 
 const (
-	GitHubContent ContentType = iota
+	GitHubMentionContent ContentType = iota
+	GitHubAssignedContent
 	SlackContent
 )
 

@@ -27,7 +27,7 @@ func TestGitHub_parseBody(t *testing.T) {
 			want: Content{
 				LinkURL:     "https://github.com/bannzai/notifier/pull/1#issuecomment-549011949",
 				UserNames:   []string{"bannzai"},
-				ContentType: GitHubContent,
+				ContentType: GitHubMentionContent,
 			},
 		},
 		{
@@ -39,7 +39,7 @@ func TestGitHub_parseBody(t *testing.T) {
 			want: Content{
 				LinkURL:     "https://github.com/bannzai/notifier/pull/1",
 				UserNames:   []string{"bannzai"},
-				ContentType: GitHubContent,
+				ContentType: GitHubAssignedContent,
 			},
 		},
 	}

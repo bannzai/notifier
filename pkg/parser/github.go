@@ -36,14 +36,14 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 		content := Content{
 			LinkURL:     github.Comment.HTMLURL,
 			UserNames:   userNames(github.Comment.Body),
-			ContentType: GitHubContent,
+			ContentType: GitHubMentionContent,
 		}
 		return content, nil
 	case github.Action == entity.GitHubActionTypeAssigned:
 		content := Content{
 			LinkURL:     github.PullRequest.HTMLURL,
 			UserNames:   []string{github.PullRequest.Assignee.Login},
-			ContentType: GitHubContent,
+			ContentType: GitHubAssignedContent,
 		}
 		return content, nil
 	default:
