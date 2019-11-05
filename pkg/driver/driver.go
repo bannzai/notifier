@@ -15,6 +15,13 @@ type DriverImpl struct {
 	Sender
 }
 
+func New(parser Parser, sender Sender) DriverImpl {
+	return DriverImpl{
+		Parser: parser,
+		Sender: sender,
+	}
+}
+
 func (driver DriverImpl) Drive(r *http.Request) error {
 	content, err := driver.Parser.Parse(r)
 	if err != nil {
