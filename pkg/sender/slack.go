@@ -43,7 +43,14 @@ func (sender Slack) Send(content parser.Content) error {
 }
 
 func (sender Slack) buildContent(content parser.Content) string {
-	return ""
+	switch content.ContentType {
+	case parser.GitHubMentionContent:
+		return fmt.Sprintf("You got mention from: %s", content.LinkURL)
+	case parser.GitHubAssignedContent:
+		return fmt.Sprintf("You assigned this PR: %s", content.LinkURL)
+	default:
+		return fmt.Sprintf("Unknown event %s", content.LinkURL)
+	}
 }
 
 func (sender Slack) getDirectMessageChannelID(userID string) (string, error) {
