@@ -29,8 +29,3 @@ func (driver DriverImpl) Drive(r *http.Request) error {
 	}
 	return driver.Send(content)
 }
-
-func Drive(r *http.Request, drivers ...Driver) error {
-	var driver Drivers = drivers
-	return driver.Drive(r)
-}
