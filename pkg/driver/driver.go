@@ -23,5 +23,5 @@ func (driver Driver) Drive(r *http.Request) error {
 	if err != nil {
 		return errors.Wrapf(err, "driver.Parser.Parse is failed. request is %v", r)
 	}
-	return driver.Send(content)
+	return driver.Sender.Send(content)
 }
