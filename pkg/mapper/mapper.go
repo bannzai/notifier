@@ -8,6 +8,10 @@ import (
 
 type Mapper struct{}
 
+func New() Mapper {
+	return Mapper{}
+}
+
 func noMatchedError(idMapping IDMapping, content parser.Content, toContentType parser.ContentType) error {
 	return fmt.Errorf("Not matched id from content of %v, to %d, with mapping values %v", content, toContentType, idMapping)
 }
