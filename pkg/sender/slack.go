@@ -10,16 +10,21 @@ import (
 
 type Slack struct {
 	*slack.Client
+	Mapper
 }
 
-func NewSlack(apiToken string) Slack {
+func NewSlack(apiToken string, mapper Mapper) Slack {
 	return Slack{
 		Client: slack.New(apiToken),
+		Mapper: mapper,
 	}
 }
 
 func (sender Slack) Send(content parser.Content) error {
-	slackUserID := content.ExtractID(parser.SlackContent)
+	slackUserID, err := sender.Mapper.MapID(content, parser.SlackContent)
+	if err != nil {
+		return errors.Wrapf(err, "Slack sender.Mapper.MapID error with %s", content)
+	}
 
 	user, err := sender.GetUserInfo(slackUserID)
 	if err != nil {
