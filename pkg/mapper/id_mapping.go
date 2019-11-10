@@ -1,4 +1,4 @@
-package parser
+package mapper
 
 import (
 	"io/ioutil"
@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"os"
 
+	"github.com/bannzai/notifier/pkg/parser"
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
 )
@@ -49,5 +50,18 @@ func FetchIDMap() (IDMapping, error) {
 			return IDMapping{}, errors.Wrapf(err, "yaml.Unmarshal error with %s", string(data))
 		}
 		return *mapping, nil
+	}
+}
+
+func (mapper IDMapping) extractFromGitHub(extractedContentType parser.ContentType) string {
+	switch extractedContentType {
+	case parser.SlackContent:
+		id := mapper.Slack.ID
+		if len(id) == 0 {
+			return mapper.Slack.Name
+		}
+		return id
+	default:
+		return ""
 	}
 }
