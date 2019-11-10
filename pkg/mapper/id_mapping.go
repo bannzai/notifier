@@ -21,7 +21,7 @@ type IDMapping struct {
 	}
 }
 
-func FetchIDMap() (IDMapping, error) {
+func fetchIDMap() (IDMapping, error) {
 	path := os.Getenv("YAML_FILE_PATH")
 	if url, err := url.ParseRequestURI(path); err != nil {
 		response, err := http.Get(url.String())
