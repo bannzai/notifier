@@ -5,5 +5,5 @@ import (
 )
 
 type Mapper interface {
-	MapID(content parser.Content, toContentType parser.ContentType) (string, error)
+	MapID(content parser.Content, toContentType ContentType) (string, error)
 }

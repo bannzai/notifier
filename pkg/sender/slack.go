@@ -21,7 +21,7 @@ func NewSlack(apiToken string, mapper Mapper) Slack {
 }
 
 func (sender Slack) Send(content parser.Content) error {
-	slackUserID, err := sender.Mapper.MapID(content, parser.SlackContent)
+	slackUserID, err := sender.Mapper.MapID(content, SlackContentType)
 	if err != nil {
 		return errors.Wrapf(err, "Slack sender.Mapper.MapID error with %s", content)
 	}
