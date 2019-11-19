@@ -6,7 +6,6 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/bannzai/notifier/pkg/sender"
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
 )
@@ -56,23 +55,5 @@ func fetchUsers() ([]User, error) {
 			return []User{}, errors.Wrapf(err, "yaml.Unmarshal error with %s", string(data))
 		}
 		return *mapping, nil
-	}
-}
-
-func extractUserFromGitHub(
-	users []User,
-	githubUserName string,
-	extractedContentType sender.ContentType,
-) (Slack, bool) {
-	switch extractedContentType {
-	case sender.SlackContentType:
-		for _, user := range users {
-			if user.GitHub.Login == githubUserName {
-				return user.Slack, true
-			}
-		}
-		return Slack{}, false
-	default:
-		return Slack{}, false
 	}
 }
