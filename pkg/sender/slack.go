@@ -21,30 +21,32 @@ func NewSlack(apiToken string, mapper Mapper) Slack {
 }
 
 func (sender Slack) Send(content parser.Content) error {
-	slackUserID, err := sender.Mapper.MapID(content, SlackContentType)
-	if err != nil {
-		return errors.Wrapf(err, "Slack sender.Mapper.MapID error with %s", content)
-	}
+	ids, err := sender.Mapper.MapIDs(content, SlackContentType)
+	for _, slackUserID := range ids {
+		if err != nil {
+			return errors.Wrapf(err, "Slack sender.Mapper.MapID error with %s", content)
+		}
 
-	user, err := sender.GetUserInfo(slackUserID)
-	if err != nil {
-		return errors.Wrapf(err, "sender.GetUserInfo(%s) is error", slackUserID)
-	}
+		user, err := sender.GetUserInfo(slackUserID)
+		if err != nil {
+			return errors.Wrapf(err, "sender.GetUserInfo(%s) is error", slackUserID)
+		}
 
-	fmt.Printf("start post message to slack from github. for user name is %s and user id is %s", user.Name, user.ID)
+		fmt.Printf("start post message to slack from github. for user name is %s and user id is %s", user.Name, user.ID)
 
-	dmChannel, err := sender.getDirectMessageChannelID(slackUserID)
-	if err != nil {
-		return errors.Wrapf(err, "sender.GetDirectMessageChannelID(%s) is error", slackUserID)
-	}
+		dmChannel, err := sender.getDirectMessageChannelID(slackUserID)
+		if err != nil {
+			return errors.Wrapf(err, "sender.GetDirectMessageChannelID(%s) is error", slackUserID)
+		}
 
-	messageOption := slack.MsgOptionText(sender.buildContent(content), false)
-	responseChannel, responseTimestamp, err := sender.PostMessage(dmChannel, messageOption)
-	if err != nil {
-		return errors.Wrapf(err, "sender.postmessage(%s) is error", slackUserID)
+		messageOption := slack.MsgOptionText(sender.buildContent(content), false)
+		responseChannel, responseTimestamp, err := sender.PostMessage(dmChannel, messageOption)
+		if err != nil {
+			return errors.Wrapf(err, "sender.postmessage(%s) is error", slackUserID)
+		}
+		fmt.Printf("Postmessage channel id: %s, timestamp: %s", responseChannel, responseTimestamp)
 	}
-	fmt.Printf("Postmessage channel id: %s, timestamp: %s", responseChannel, responseTimestamp)
-	return nil
+	return errors.Wrapf(err, "slack.Send is error. but this ids: %v alrady post message", ids)
 }
 
 func (sender Slack) buildContent(content parser.Content) string {

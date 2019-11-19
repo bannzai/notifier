@@ -6,20 +6,24 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/bannzai/notifier/pkg/parser"
 	"github.com/bannzai/notifier/pkg/sender"
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
 )
 
-type IDMapping struct {
-	GitHubList []struct {
+type (
+	GitHub struct {
 		Login string
 	}
-	SlackList []struct {
+	Slack struct {
 		ID   string
 		Name string
 	}
+)
+
+type IDMapping struct {
+	GitHubList []GitHub
+	SlackList  []Slack
 }
 
 func fetchIDMap() (IDMapping, error) {
@@ -54,17 +58,21 @@ func fetchIDMap() (IDMapping, error) {
 	}
 }
 
-func (mapper IDMapping) extractFromGitHub(parsedContent parser.Content, extractedContentType sender.ContentType) string {
+func (mapper IDMapping) extractFromGitHub(username string, extractedContentType sender.ContentType) string {
 	switch extractedContentType {
 	case sender.SlackContentType:
+		var matchedContent GitHub
+		for _, github := range mapper.GitHubList {
+			if username == github.Login {
+				matchedContent = github
+			}
+		}
 		for _, slack := range mapper.SlackList {
-			for _, username := range parsedContent.UserNames {
-				if username == slack.ID {
-					return username
-				}
-				if username == slack.Name {
-					return username
-				}
+			if username == slack.ID {
+				return username
+			}
+			if username == slack.Name {
+				return username
 			}
 		}
 		return ""
