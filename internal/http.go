@@ -9,6 +9,7 @@ import (
 	"github.com/bannzai/notifier/pkg/mapper"
 	"github.com/bannzai/notifier/pkg/parser"
 	"github.com/bannzai/notifier/pkg/sender"
+	"github.com/pkg/errors"
 )
 
 func GitHub(w http.ResponseWriter, r *http.Request) {
@@ -30,5 +31,8 @@ func GitHub(w http.ResponseWriter, r *http.Request) {
 	)
 	if err := githubToSlackDriver.Drive(r); err != nil {
 		log.Printf("GitHub driver error with %v", err)
+		if err = errors.Cause(err); err != nil {
+			log.Printf("GitHub driver error from %v", err)
+		}
 	}
 }
