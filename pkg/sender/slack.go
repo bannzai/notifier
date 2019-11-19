@@ -24,7 +24,7 @@ func (sender Slack) Send(content parser.Content) error {
 	ids, err := sender.Mapper.MapIDs(content, SlackContentType)
 	for _, slackUserID := range ids {
 		if err != nil {
-			return errors.Wrapf(err, "Slack sender.Mapper.MapID error with %s", content)
+			return errors.Wrapf(err, "Slack sender.Mapper.MapID error with %v", content)
 		}
 
 		user, err := sender.GetUserInfo(slackUserID)
