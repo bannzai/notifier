@@ -1,12 +1,10 @@
 package parser
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strings"
 
 	"github.com/bannzai/notifier/pkg/parser/entity"
 	"github.com/pkg/errors"
@@ -28,9 +26,9 @@ func (parser GitHub) Parse(request *http.Request) (Content, error) {
 
 func (GitHub) parseBody(body []byte) (Content, error) {
 	var github entity.GitHub
-	s := string(body)
-	s = strings.Replace(s, "payload=", "", 1)
-	if err := json.Unmarshal(bytes.NewBufferString(s).Bytes(), &github); err != nil {
+	// 	s := string(body)
+	// 	s = strings.Replace(s, "payload=", "", 1)
+	if err := json.Unmarshal(body, &github); err != nil {
 		return Content{}, errors.Wrapf(err, "github json decode error %s", string(body))
 	}
 	switch {
