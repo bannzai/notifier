@@ -18,7 +18,8 @@ func NewGitHub() GitHub {
 
 func (parser GitHub) Parse(request *http.Request) (Content, error) {
 	buffer := bytes.Buffer{}
-	_, err := buffer.ReadFrom(request.Body)
+	length, err := buffer.ReadFrom(request.Body)
+	fmt.Printf("request Body length = %+v\n", length)
 	if err != nil {
 		return Content{}, fmt.Errorf("Request body read error %w", err)
 	}
