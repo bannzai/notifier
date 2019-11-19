@@ -39,6 +39,8 @@ func (sender Slack) Send(content parser.Content) error {
 			return errors.Wrapf(err, "sender.GetDirectMessageChannelID(%s) is error", slackUserID)
 		}
 
+		fmt.Printf("dmChannel = %+v\n", dmChannel)
+
 		messageOption := slack.MsgOptionText(sender.buildContent(content), false)
 		responseChannel, responseTimestamp, err := sender.PostMessage(dmChannel, messageOption)
 		if err != nil {
@@ -67,7 +69,6 @@ func (sender Slack) getDirectMessageChannelID(userID string) (string, error) {
 	}
 	for _, im := range imList {
 		if im.User == userID {
-			fmt.Printf("matched im.User = %+v\n", im.User)
 			return im.ID, nil
 		}
 	}
