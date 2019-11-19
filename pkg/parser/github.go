@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strings"
 
@@ -18,13 +19,10 @@ func NewGitHub() GitHub {
 }
 
 func (parser GitHub) Parse(request *http.Request) (Content, error) {
-	buffer := bytes.Buffer{}
-	length, err := buffer.ReadFrom(request.Body)
-	fmt.Printf("request Body length = %+v\n", length)
+	body, err := ioutil.ReadAll(request.Body)
 	if err != nil {
 		return Content{}, fmt.Errorf("Request body read error %w", err)
 	}
-	body := buffer.Bytes()
 	return parser.parseBody(body)
 }
 
