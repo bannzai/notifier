@@ -67,6 +67,7 @@ func (sender Slack) getDirectMessageChannelID(userID string) (string, error) {
 	}
 	for _, im := range imList {
 		if im.User == userID {
+			fmt.Printf("matched im.User = %+v\n", im.User)
 			return im.ID, nil
 		}
 	}
