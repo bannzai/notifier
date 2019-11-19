@@ -21,7 +21,13 @@ func GitHub(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO: Flexing with command line argument
-	githubToSlackDriver := driver.New(parser.NewGitHub(), sender.NewSlack(os.Getenv("NOTIFIER_SLACK_TOKEN"), mapper.New()))
+	githubToSlackDriver := driver.New(
+		parser.NewGitHub(),
+		sender.NewSlack(
+			os.Getenv("NOTIFIER_SLACK_TOKEN"),
+			mapper.New(),
+		),
+	)
 	if err := githubToSlackDriver.Drive(r); err != nil {
 		log.Printf("GitHub driver error with %v", err)
 	}
