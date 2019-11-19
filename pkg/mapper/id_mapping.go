@@ -21,62 +21,58 @@ type (
 	}
 )
 
-type IDMapping struct {
-	GitHubList []GitHub
-	SlackList  []Slack
+type User struct {
+	ID string
+	GitHub
+	Slack
 }
 
-func fetchIDMap() (IDMapping, error) {
+func fetchUsers() ([]User, error) {
 	path := os.Getenv("YAML_FILE_PATH")
 	if url, err := url.ParseRequestURI(path); err != nil {
 		response, err := http.Get(url.String())
 		if err != nil {
-			return IDMapping{}, errors.Wrapf(err, "http error with url: %s", url.String())
+			return []User{}, errors.Wrapf(err, "http error with url: %s", url.String())
 		}
 		defer response.Body.Close()
 
 		body := response.Body
 		bytes, err := ioutil.ReadAll(body)
 		if err != nil {
-			return IDMapping{}, errors.Wrapf(err, "ioutil.ReadAll error with http response body %v", body)
+			return []User{}, errors.Wrapf(err, "ioutil.ReadAll error with http response body %v", body)
 		}
-		mapping := &IDMapping{}
+		mapping := &[]User{}
 		if err := yaml.Unmarshal(bytes, mapping); err != nil {
-			return IDMapping{}, errors.Wrapf(err, "Decode error to yaml from %s", string(bytes))
+			return []User{}, errors.Wrapf(err, "Decode error to yaml from %s", string(bytes))
 		}
 		return *mapping, nil
 	} else {
 		data, err := ioutil.ReadFile(path)
 		if err != nil {
-			return IDMapping{}, errors.Wrapf(err, "ioutil.ReadFile error with path: %s", path)
+			return []User{}, errors.Wrapf(err, "ioutil.ReadFile error with path: %s", path)
 		}
-		mapping := &IDMapping{}
+		mapping := &[]User{}
 		if err := yaml.Unmarshal(data, mapping); err != nil {
-			return IDMapping{}, errors.Wrapf(err, "yaml.Unmarshal error with %s", string(data))
+			return []User{}, errors.Wrapf(err, "yaml.Unmarshal error with %s", string(data))
 		}
 		return *mapping, nil
 	}
 }
 
-func (mapper IDMapping) extractFromGitHub(username string, extractedContentType sender.ContentType) string {
+func extractUserFromGitHub(
+	users []User,
+	githubUserName string,
+	extractedContentType sender.ContentType,
+) (Slack, bool) {
 	switch extractedContentType {
 	case sender.SlackContentType:
-		var matchedContent GitHub
-		for _, github := range mapper.GitHubList {
-			if username == github.Login {
-				matchedContent = github
+		for _, user := range users {
+			if user.GitHub.Login == githubUserName {
+				return user.Slack, true
 			}
 		}
-		for _, slack := range mapper.SlackList {
-			if username == slack.ID {
-				return username
-			}
-			if username == slack.Name {
-				return username
-			}
-		}
-		return ""
+		return Slack{}, false
 	default:
-		return ""
+		return Slack{}, false
 	}
 }
