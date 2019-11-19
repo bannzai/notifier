@@ -1,10 +1,13 @@
 package parser
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
+	"strings"
 
 	"github.com/bannzai/notifier/pkg/parser/entity"
 	"github.com/pkg/errors"
@@ -24,12 +27,17 @@ func (parser GitHub) Parse(request *http.Request) (Content, error) {
 	return parser.parseBody(body)
 }
 
-func (GitHub) parseBody(body []byte) (Content, error) {
+func (GitHub) parseBody(data []byte) (Content, error) {
 	var github entity.GitHub
-	// 	s := string(body)
-	// 	s = strings.Replace(s, "payload=", "", 1)
-	if err := json.Unmarshal(body, &github); err != nil {
-		return Content{}, errors.Wrapf(err, "github json decode error %s", string(body))
+	s := strings.Replace(string(data), "payload=", "", 1)
+	body, err := url.QueryUnescape(s)
+
+	if err != nil {
+		return Content{}, errors.Wrapf(err, "url.QueryUnescape got error. body is %v", s)
+	}
+
+	if err := json.Unmarshal(bytes.NewBufferString(body).Bytes(), &github); err != nil {
+		return Content{}, errors.Wrapf(err, "github json decode error %s", body)
 	}
 	switch {
 	case github.Comment != nil:
