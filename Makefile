@@ -5,6 +5,9 @@ CURRENT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 build:
 	go build -v -o $(APP_NAME) main.go
 
+test: 
+	go test ./...
+
 clean:
 	rm -rf ./$(APP_NAME)
 
