@@ -3,8 +3,8 @@ package mapper
 import (
 	"io/ioutil"
 	"net/http"
-	"net/url"
 	"os"
+	"strings"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
@@ -26,12 +26,16 @@ type User struct {
 	Slack  `yaml:"slack"`
 }
 
+func isRemoteURL(path string) bool {
+	return strings.Contains(path, "http://") || strings.Contains(path, "https://")
+}
+
 func fetchUsers() ([]User, error) {
 	path := os.Getenv("YAML_FILE_PATH")
-	if url, err := url.ParseRequestURI(path); err == nil {
-		response, err := http.Get(url.String())
+	if isRemoteURL(path) {
+		response, err := http.Get(path)
 		if err != nil {
-			return []User{}, errors.Wrapf(err, "http error with url: %s", url.String())
+			return []User{}, errors.Wrapf(err, "http error with url: %s", path)
 		}
 		defer response.Body.Close()
 
