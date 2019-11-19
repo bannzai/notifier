@@ -13,18 +13,18 @@ import (
 
 type (
 	GitHub struct {
-		Login string
+		Login string `yaml:"login"`
 	}
 	Slack struct {
-		ID   string
-		Name string
+		ID   string `yaml:"id"`
+		Name string `yaml:"name"`
 	}
 )
 
 type User struct {
-	ID string
-	GitHub
-	Slack
+	ID     string `yaml:"id"`
+	GitHub `yaml:"github"`
+	Slack  `yaml:"slack"`
 }
 
 func fetchUsers() ([]User, error) {
