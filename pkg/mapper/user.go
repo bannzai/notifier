@@ -28,7 +28,7 @@ type User struct {
 
 func fetchUsers() ([]User, error) {
 	path := os.Getenv("YAML_FILE_PATH")
-	if url, err := url.ParseRequestURI(path); err != nil {
+	if url, err := url.ParseRequestURI(path); err == nil {
 		response, err := http.Get(url.String())
 		if err != nil {
 			return []User{}, errors.Wrapf(err, "http error with url: %s", url.String())
