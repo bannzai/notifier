@@ -24,7 +24,7 @@ func (Mapper) MapID(content parser.Content, toContentType sender.ContentType) (s
 	}
 	switch content.ContentType {
 	case parser.GitHubMentionContent, parser.GitHubAssignedContent:
-		id := idMapping.extractFromGitHub(toContentType)
+		id := idMapping.extractFromGitHub(content, toContentType)
 		if len(id) == 0 {
 			return "", noMatchedError(idMapping, content, toContentType)
 		}
