@@ -36,4 +36,6 @@ func GitHub(w http.ResponseWriter, r *http.Request) {
 			log.Printf("GitHub driver error from %v", err)
 		}
 	}
+
+	log.Println("successfully post message to slack")
 }
