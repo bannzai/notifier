@@ -51,7 +51,7 @@ func TestGitHub_parseBody(t *testing.T) {
 			want: Content{
 				LinkURL:     "https://github.com/bannzai/notifier/pull/1",
 				UserNames:   []string{"bannzai"},
-				ContentType: GitHubAssignedContent,
+				ContentType: GitHubRequestReviewedContent,
 			},
 		},
 	}
