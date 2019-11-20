@@ -18,3 +18,6 @@ docker:
 heroku:
 	heroku stack:set container
 	git push heroku $(CURRENT_BRANCH):master
+heroku-f:
+	heroku stack:set container
+	git push heroku $(CURRENT_BRANCH):master --force-with-lease
