@@ -25,6 +25,9 @@ type (
 		Assignees []struct {
 			Login string `json:"login"`
 		} `json:"assignees"`
+		RequestReviewers []struct {
+			Login string `json:"login"`
+		} `json:"requested_reviewers"`
 	}
 )
 
@@ -34,6 +37,7 @@ const (
 	GitHubActionTypeUnknown = iota
 	GitHubActionTypeCreated
 	GitHubActionTypeAssigned
+	GitHubActionTypeReviewRequested
 )
 
 func (enum *GitHubActionType) UnmarshalJSON(data []byte) error {
@@ -48,6 +52,8 @@ func (enum *GitHubActionType) UnmarshalJSON(data []byte) error {
 		e = GitHubActionTypeCreated
 	case "assigned":
 		e = GitHubActionTypeAssigned
+	case "review_requested":
+		e = GitHubActionTypeReviewRequested
 	default:
 		// TODO: Catch unknown case
 		e = GitHubActionTypeUnknown

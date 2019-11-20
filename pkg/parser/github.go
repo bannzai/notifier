@@ -41,10 +41,26 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 		return content, nil
 	case github.Action == entity.GitHubActionTypeAssigned:
 		// NOTE: Assigned from Issue or Pull-Request
+		usernames := []string{}
+		for _, assignee := range github.PullRequest.Assignees {
+			usernames = append(usernames, assignee.Login)
+		}
 		content := Content{
 			LinkURL:     github.PullRequest.HTMLURL,
-			UserNames:   []string{github.PullRequest.Assignee.Login},
+			UserNames:   usernames,
 			ContentType: GitHubAssignedContent,
+		}
+		return content, nil
+	case github.Action == entity.GitHubActionTypeReviewRequested:
+		// NOTE: RequestReviewed from Issue or Pull-Request
+		usernames := []string{}
+		for _, reviewer := range github.PullRequest.RequestReviewers {
+			usernames = append(usernames, reviewer.Login)
+		}
+		content := Content{
+			LinkURL:     github.PullRequest.HTMLURL,
+			UserNames:   usernames,
+			ContentType: GitHubRequestReviewedContent,
 		}
 		return content, nil
 	default:

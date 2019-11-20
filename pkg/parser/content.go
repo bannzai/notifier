@@ -5,6 +5,7 @@ type ContentType int
 const (
 	GitHubMentionContent ContentType = iota
 	GitHubAssignedContent
+	GitHubRequestReviewedContent
 )
 
 type Content struct {
