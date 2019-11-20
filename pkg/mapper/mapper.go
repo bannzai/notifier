@@ -25,6 +25,7 @@ func (Mapper) MapIDs(content parser.Content, toContentType sender.ContentType) (
 	switch content.ContentType {
 	case parser.GitHubMentionContent, parser.GitHubAssignedContent:
 		ids := []string{}
+		fmt.Printf("content.UserNames = %+v\n", content.UserNames)
 		for _, username := range content.UserNames {
 			slack, ok := extractUserFromGitHub(users, username, toContentType)
 
