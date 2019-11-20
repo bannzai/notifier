@@ -57,9 +57,7 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 		for _, reviewer := range github.PullRequest.RequestReviewers {
 			usernames = append(usernames, reviewer.Login)
 		}
-		fmt.Printf("usernames = %+v\n", usernames)
 		if len(usernames) == 0 {
-			fmt.Printf("github.RequestedReviwer.Login = %+v\n", github.RequestedReviwer.Login)
 			usernames = append(usernames, github.RequestedReviwer.Login)
 		}
 		content := Content{
