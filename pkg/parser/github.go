@@ -29,7 +29,7 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 	if err := json.Unmarshal(body, &github); err != nil {
 		return Content{}, errors.Wrapf(err, "github json decode error %s", body)
 	}
-	fmt.Printf("github = %+v\n", github)
+	fmt.Printf("Received github structure = %+v\n", github)
 	switch {
 	case github.Comment != nil:
 		content := Content{
@@ -37,7 +37,6 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 			UserNames:   userNames(github.Comment.Body),
 			ContentType: GitHubMentionContent,
 		}
-		fmt.Printf("1: content = %+v\n", content)
 		return content, nil
 	case github.Action == entity.GitHubActionTypeAssigned:
 		content := Content{
@@ -45,7 +44,6 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 			UserNames:   []string{github.PullRequest.Assignee.Login},
 			ContentType: GitHubAssignedContent,
 		}
-		fmt.Printf("2: content = %+v\n", content)
 		return content, nil
 	default:
 		panic(fmt.Sprintf("Unexpected github content pattenr of %v", github))
