@@ -64,14 +64,10 @@ func (sender Slack) buildContent(content parser.Content) string {
 }
 
 func (sender Slack) getDirectMessageChannelID(userID string) (string, error) {
-	imList, err := sender.GetIMChannels()
+	noop, alreadyOpen, channelID, err := sender.OpenIMChannel(userID)
 	if err != nil {
-		return "", errors.Wrap(err, "sender.GetIMChannels() is error")
+		return "", errors.Wrapf(err, "sender.OpenIMChannel(%s) is error", userID)
 	}
-	for _, im := range imList {
-		if im.User == userID {
-			return im.ID, nil
-		}
-	}
-	return "", fmt.Errorf("Can not find im for this user id %s", userID)
+	fmt.Printf("open id status noop = %+v, already open = %v, channelID = %v\n", noop, alreadyOpen, channelID)
+	return channelID, nil
 }
