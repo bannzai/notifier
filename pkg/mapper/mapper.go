@@ -2,6 +2,7 @@ package mapper
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/bannzai/notifier/pkg/parser"
 	"github.com/bannzai/notifier/pkg/sender"
@@ -23,7 +24,7 @@ func (Mapper) MapIDs(content parser.Content, toContentType sender.ContentType) (
 		return []string{}, fmt.Errorf("fetchIDMap error %w", err)
 	}
 	switch content.ContentType {
-	case parser.GitHubMentionContent, parser.GitHubAssignedContent:
+	case parser.GitHubMentionContent, parser.GitHubAssignedContent, parser.GitHubRequestReviewedContent:
 		ids := []string{}
 		fmt.Printf("content.UserNames = %+v\n", content.UserNames)
 		for _, username := range content.UserNames {
@@ -37,6 +38,7 @@ func (Mapper) MapIDs(content parser.Content, toContentType sender.ContentType) (
 		}
 		return ids, nil
 	default:
+		log.Printf("Unexpected pattern for content type %d", content.ContentType)
 		return []string{}, noMatchedError(users, content, toContentType)
 	}
 }
