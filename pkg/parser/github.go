@@ -32,6 +32,7 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 	fmt.Printf("Received github structure = %+v\n", github)
 	switch {
 	case github.Comment != nil:
+		// NOTE: Mention on Comment from Issue or Pull-Request
 		content := Content{
 			LinkURL:     github.Comment.HTMLURL,
 			UserNames:   userNames(github.Comment.Body),
@@ -39,6 +40,7 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 		}
 		return content, nil
 	case github.Action == entity.GitHubActionTypeAssigned:
+		// NOTE: Assigned from Issue or Pull-Request
 		content := Content{
 			LinkURL:     github.PullRequest.HTMLURL,
 			UserNames:   []string{github.PullRequest.Assignee.Login},
