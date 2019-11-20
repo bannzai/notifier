@@ -45,7 +45,7 @@ func Test_fetchUsers(t *testing.T) {
 						Login: "kingkong999",
 					},
 					Slack: Slack{
-						Name: "xyz",
+						ID: "xyz",
 					},
 				},
 			},

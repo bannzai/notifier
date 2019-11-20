@@ -16,8 +16,7 @@ type (
 		Login string `yaml:"login"`
 	}
 	Slack struct {
-		ID   string `yaml:"id"`
-		Name string `yaml:"name"`
+		ID string `yaml:"id"`
 	}
 )
 

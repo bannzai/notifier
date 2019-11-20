@@ -33,11 +33,7 @@ func (Mapper) MapIDs(content parser.Content, toContentType sender.ContentType) (
 				return ids, noMatchedError(users, content, toContentType)
 			}
 
-			if len(slack.ID) > 0 {
-				ids = append(ids, slack.ID)
-			} else {
-				ids = append(ids, slack.Name)
-			}
+			ids = append(ids, slack.ID)
 		}
 		return ids, nil
 	default:
