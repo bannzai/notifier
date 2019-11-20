@@ -57,6 +57,9 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 		for _, reviewer := range github.PullRequest.RequestReviewers {
 			usernames = append(usernames, reviewer.Login)
 		}
+		if len(usernames) == 0 {
+			usernames = append(usernames, github.RequestedReviwer.Login)
+		}
 		content := Content{
 			LinkURL:     github.PullRequest.HTMLURL,
 			UserNames:   usernames,

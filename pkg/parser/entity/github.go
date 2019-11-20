@@ -7,9 +7,12 @@ import (
 
 type (
 	GitHub struct {
-		Action       GitHubActionType `json:"action"`
-		*Comment     `json:"comment",omitempty`
-		*PullRequest `json:"pull_request",omitempty`
+		Action           GitHubActionType `json:"action"`
+		*Comment         `json:"comment",omitempty`
+		*PullRequest     `json:"pull_request",omitempty`
+		RequestedReviwer *struct {
+			Login string `json:"login"`
+		} `json:"requested_reviewer,omitempty"`
 	}
 
 	Comment struct {

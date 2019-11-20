@@ -54,6 +54,18 @@ func TestGitHub_parseBody(t *testing.T) {
 				ContentType: GitHubRequestReviewedContent,
 			},
 		},
+		{
+			name: "parse successfully when read truth json for single request reviewed to pull-request pattern",
+			g:    NewGitHub(),
+			args: args{
+				body: testutil.ReadFile(t, testutil.CallerDirectoryPath(t)+"/testdata/github_request_reviewed_pull_request_has_single_request_reviewer.json"),
+			},
+			want: Content{
+				LinkURL:     "https://github.com/bannzai/notifier/pull/1",
+				UserNames:   []string{"bannzai"},
+				ContentType: GitHubRequestReviewedContent,
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
