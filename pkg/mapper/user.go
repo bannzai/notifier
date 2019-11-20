@@ -32,8 +32,8 @@ func isRemoteURL(path string) bool {
 
 func fetchUsers() ([]User, error) {
 	path := os.Getenv("YAML_FILE_PATH")
+	fmt.Printf("YAML_FILE_PATH = %+v\n", path)
 	if isRemoteURL(path) {
-		fmt.Printf("path = %+v\n", path)
 		response, err := http.Get(path)
 		if err != nil {
 			return []User{}, errors.Wrapf(err, "http error with url: %s", path)
