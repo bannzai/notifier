@@ -46,7 +46,10 @@ func (sender Slack) Send(content parser.Content) error {
 		}
 		fmt.Printf("Postmessage channel id: %s, timestamp: %s", responseChannel, responseTimestamp)
 	}
-	return errors.Wrapf(err, "slack.Send is error. but this ids: %v alrady post message", ids)
+	if err != nil {
+		return errors.Wrapf(err, "slack.Send is error. but this ids: %v alrady post message", ids)
+	}
+	return nil
 }
 
 func (sender Slack) buildContent(content parser.Content) string {
