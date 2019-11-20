@@ -29,7 +29,6 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 	if err := json.Unmarshal(body, &github); err != nil {
 		return Content{}, errors.Wrapf(err, "github json decode error %s", body)
 	}
-	fmt.Printf("body = %+v\n", string(body))
 	switch {
 	case github.Comment != nil:
 		content := Content{
