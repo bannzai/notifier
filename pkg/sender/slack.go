@@ -39,8 +39,6 @@ func (sender Slack) Send(content parser.Content) error {
 			return errors.Wrapf(err, "sender.GetDirectMessageChannelID(%s) is error", slackUserID)
 		}
 
-		fmt.Printf("dmChannel = %+v\n", dmChannel)
-
 		messageOption := slack.MsgOptionText(sender.buildContent(content), false)
 		responseChannel, responseTimestamp, err := sender.PostMessage(dmChannel, messageOption)
 		if err != nil {
