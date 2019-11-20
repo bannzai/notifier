@@ -58,7 +58,7 @@ func (sender Slack) buildContent(content parser.Content) string {
 		return fmt.Sprintf("You got mention from: %s", content.LinkURL)
 	case parser.GitHubAssignedContent:
 		return fmt.Sprintf("You got contact for assignee this PR: %s", content.LinkURL)
-	case parser.GitHubActionTypeReviewRequested:
+	case parser.GitHubRequestReviewedContent:
 		return fmt.Sprintf("You got request for reviewer this PR: %s", content.LinkURL)
 	default:
 		return fmt.Sprintf("Unknown event %s", content.LinkURL)
