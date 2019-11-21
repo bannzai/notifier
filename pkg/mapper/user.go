@@ -1,12 +1,12 @@
 package mapper
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
 
+	"github.com/bannzai/notifier/pkg/logger"
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
 )
@@ -32,7 +32,7 @@ func isRemoteURL(path string) bool {
 
 func fetchUsers() ([]User, error) {
 	path := os.Getenv("YAML_FILE_PATH")
-	fmt.Printf("YAML_FILE_PATH = %+v\n", path)
+	logger.Logf("YAML_FILE_PATH = %+v\n", path)
 	if isRemoteURL(path) {
 		response, err := http.Get(path)
 		if err != nil {

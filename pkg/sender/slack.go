@@ -3,6 +3,7 @@ package sender
 import (
 	"fmt"
 
+	"github.com/bannzai/notifier/pkg/logger"
 	"github.com/bannzai/notifier/pkg/parser"
 	"github.com/nlopes/slack"
 	"github.com/pkg/errors"
@@ -32,7 +33,7 @@ func (sender Slack) Send(content parser.Content) error {
 			return errors.Wrapf(err, "sender.GetUserInfo(%s) is error", slackUserID)
 		}
 
-		fmt.Printf("start post message to slack from github. for user name is %s and user id is %s", user.Name, user.ID)
+		logger.Logf("start post message to slack from github. for user name is %s and user id is %s", user.Name, user.ID)
 
 		dmChannel, err := sender.getDirectMessageChannelID(slackUserID)
 		if err != nil {
@@ -44,7 +45,7 @@ func (sender Slack) Send(content parser.Content) error {
 		if err != nil {
 			return errors.Wrapf(err, "sender.postmessage(%s) is error", slackUserID)
 		}
-		fmt.Printf("Postmessage channel id: %s, timestamp: %s", responseChannel, responseTimestamp)
+		logger.Logf("Postmessage channel id: %s, timestamp: %s", responseChannel, responseTimestamp)
 	}
 	if err != nil {
 		return errors.Wrapf(err, "slack.Send is error. but this ids: %v alrady post message", ids)

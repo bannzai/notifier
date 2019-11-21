@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/bannzai/notifier/pkg/logger"
 	"github.com/bannzai/notifier/pkg/parser"
 	"github.com/bannzai/notifier/pkg/sender"
 )
@@ -26,7 +27,7 @@ func (Mapper) MapIDs(content parser.Content, toContentType sender.ContentType) (
 	switch content.ContentType {
 	case parser.GitHubMentionContent, parser.GitHubAssignedContent, parser.GitHubRequestReviewedContent:
 		ids := []string{}
-		fmt.Printf("content.UserNames = %+v\n", content.UserNames)
+		logger.Logf("content.UserNames = %+v\n", content.UserNames)
 		for _, username := range content.UserNames {
 			slack, ok := extractUserFromGitHub(users, username, toContentType)
 
