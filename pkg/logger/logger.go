@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"runtime/debug"
 )
 
 type Logger struct {
@@ -21,8 +20,4 @@ func Log(v ...interface{}) {
 
 func Logf(format string, v ...interface{}) {
 	fmt.Fprintf(sharedLogger, format, v...)
-}
-
-func Debug() {
-	sharedLogger.Write(debug.Stack())
 }
