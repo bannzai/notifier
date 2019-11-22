@@ -1,15 +1,14 @@
 package internal
 
 import (
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/bannzai/notifier/pkg/driver"
+	"github.com/bannzai/notifier/pkg/logger"
 	"github.com/bannzai/notifier/pkg/mapper"
 	"github.com/bannzai/notifier/pkg/parser"
 	"github.com/bannzai/notifier/pkg/sender"
-	"github.com/pkg/errors"
 )
 
 func GitHub(w http.ResponseWriter, r *http.Request) {
@@ -30,12 +29,8 @@ func GitHub(w http.ResponseWriter, r *http.Request) {
 		),
 	)
 	if err := githubToSlackDriver.Drive(r); err != nil {
-		log.Printf("GitHub driver error with %v", err)
-		if err = errors.Cause(err); err != nil {
-			// TODO: Refactor for integrate error messages with original error type
-			log.Printf("GitHub driver error from %v", err)
-		}
+		logger.Logf("GitHub driver error with %v", err)
+	} else {
+		logger.Log("successfully post message to slack")
 	}
-
-	log.Println("successfully post message to slack")
 }
