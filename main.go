@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/bannzai/notifier/internal"
+	"github.com/bannzai/notifier/pkg/logger"
 )
 
 const defaultPort = "5000"
@@ -18,7 +19,7 @@ func main() {
 		port = defaultPort
 	}
 
-	fmt.Printf("Start process!! port :%s\n", port)
+	logger.Logf("Start process!! port: %s", port)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello World")
 	})

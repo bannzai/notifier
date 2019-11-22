@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/bannzai/notifier/pkg/logger"
 	"github.com/bannzai/notifier/pkg/parser/entity"
 	"github.com/pkg/errors"
 )
@@ -29,7 +30,7 @@ func (GitHub) parseBody(body []byte) (Content, error) {
 	if err := json.Unmarshal(body, &github); err != nil {
 		return Content{}, errors.Wrapf(err, "github json decode error %s", body)
 	}
-	fmt.Printf("Received github structure = %+v\n", github)
+	logger.Logf("Received github structure = %+v\n", github)
 	switch {
 	case github.Comment != nil:
 		// NOTE: Mention on Comment from Issue or Pull-Request
