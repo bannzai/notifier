@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"encoding/json"
 	"net/http"
 	"os"
 
@@ -9,6 +10,7 @@ import (
 	"github.com/bannzai/notifier/pkg/mapper"
 	"github.com/bannzai/notifier/pkg/parser"
 	"github.com/bannzai/notifier/pkg/sender"
+	"github.com/pkg/errors"
 )
 
 func GitHub(w http.ResponseWriter, r *http.Request) {
@@ -28,9 +30,47 @@ func GitHub(w http.ResponseWriter, r *http.Request) {
 			mapper.New(),
 		),
 	)
+
+	response := Response{}
 	if err := githubToSlackDriver.Drive(r); err != nil {
 		logger.Logf("GitHub driver error with %v", err)
+		response = Response{
+			Success: false,
+			Errors:  []Errors{{Message: err.Error()}},
+		}
 	} else {
 		logger.Log("successfully post message to slack")
+		response = Response{
+			Success: true,
+			Errors:  []Errors{},
+		}
+	}
+
+	bytes, err := write(response)
+	if err != nil {
+		logger.Logf("write(%v) error. original error is %v", response, err)
+	}
+
+	length, err := w.Write(bytes)
+	if err != nil {
+		logger.Logf("w.Write(bytes) error. response is %v. original error is %v. already write bytes of %d", response, err, length)
 	}
 }
+
+func write(response Response) ([]byte, error) {
+	bytes, err := json.Marshal(response)
+	if err != nil {
+		return []byte{}, errors.Wrap(err, "json.Marshal(response) is error")
+	}
+	return bytes, nil
+}
+
+type (
+	Response struct {
+		Success bool     `json:"success"`
+		Errors  []Errors `json:"errors"`
+	}
+	Errors struct {
+		Message string `json:"message"`
+	}
+)
