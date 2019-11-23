@@ -1,9 +1,8 @@
-name: Go
+name: Test
 on: [push]
 jobs:
-
   build:
-    name: Build
+    name: Test
     runs-on: [ubuntu-latest, macOS-latest, windows-latest]
     steps:
     - name: Set up Go 1.13
