@@ -48,9 +48,13 @@ func GitHub(w http.ResponseWriter, r *http.Request) {
 
 	bytes, err := write(response)
 	if err != nil {
-		logger.Logf("write respone error with %v", err)
+		logger.Logf("write(%v) error. original error is %v", response, err)
 	}
-	w.Write(bytes)
+
+	length, err := w.Write(bytes)
+	if err != nil {
+		logger.Logf("w.Write(bytes) error. response is %v. original error is %v. already write bytes of %d", response, err, length)
+	}
 }
 
 func write(response Response) ([]byte, error) {
