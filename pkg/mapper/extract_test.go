@@ -19,7 +19,66 @@ func Test_extractUserFromGitHub(t *testing.T) {
 		want  Slack
 		want1 bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "extract slack user",
+			args: args{
+				users: []User{
+					{
+						ID: "bannzai",
+						GitHub: GitHub{
+							Login: "github",
+						},
+						Slack: Slack{
+							ID: "slack",
+						},
+					},
+					{
+						ID: "yudai.hirose",
+						GitHub: GitHub{
+							Login: "xyz",
+						},
+						Slack: Slack{
+							ID: "abc",
+						},
+					},
+				},
+				githubUserName:       "github",
+				extractedContentType: sender.SlackContentType,
+			},
+			want: Slack{
+				ID: "slack",
+			},
+			want1: true,
+		},
+		{
+			name: "no matched github user name",
+			args: args{
+				users: []User{
+					{
+						ID: "bannzai",
+						GitHub: GitHub{
+							Login: "github",
+						},
+						Slack: Slack{
+							ID: "slack",
+						},
+					},
+					{
+						ID: "yudai.hirose",
+						GitHub: GitHub{
+							Login: "xyz",
+						},
+						Slack: Slack{
+							ID: "abc",
+						},
+					},
+				},
+				githubUserName:       "hogehoge",
+				extractedContentType: sender.SlackContentType,
+			},
+			want:  Slack{},
+			want1: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
