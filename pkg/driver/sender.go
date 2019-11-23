@@ -1,3 +1,4 @@
+//go:generate mockgen -source=$GOFILE -destination=$GOPATH/src/github.com/bannzai/notifier/pkg/driver/sender_mock_test.go -package=$GOPACKAGE
 package driver
 
 import (

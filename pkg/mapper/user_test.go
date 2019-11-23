@@ -66,3 +66,50 @@ func Test_fetchUsers(t *testing.T) {
 		})
 	}
 }
+
+func Test_isRemoteURL(t *testing.T) {
+	type args struct {
+		path string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			name: "path begin http://",
+			args: args{
+				path: "http://example.com",
+			},
+			want: true,
+		},
+		{
+			name: "path begin https://",
+			args: args{
+				path: "https://example.com",
+			},
+			want: true,
+		},
+		{
+			name: "path is absolute local file path",
+			args: args{
+				path: "/Users/bannzai/notifier/test.yml",
+			},
+			want: false,
+		},
+		{
+			name: "path is relative local file path",
+			args: args{
+				path: "test.yml",
+			},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := isRemoteURL(tt.args.path); got != tt.want {
+				t.Errorf("isRemoteURL() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
