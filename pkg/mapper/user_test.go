@@ -76,7 +76,34 @@ func Test_isRemoteURL(t *testing.T) {
 		args args
 		want bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "path begin http://",
+			args: args{
+				path: "http://example.com",
+			},
+			want: true,
+		},
+		{
+			name: "path begin https://",
+			args: args{
+				path: "https://example.com",
+			},
+			want: true,
+		},
+		{
+			name: "path is absolute local file path",
+			args: args{
+				path: "/Users/bannzai/notifier/test.yml",
+			},
+			want: false,
+		},
+		{
+			name: "path is relative local file path",
+			args: args{
+				path: "test.yml",
+			},
+			want: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
