@@ -1,11 +1,18 @@
 package driver
 
 import (
+	"errors"
 	"net/http"
 	"testing"
+
+	"github.com/bannzai/notifier/pkg/parser"
+	gomock "github.com/golang/mock/gomock"
 )
 
 func TestDriver_Drive(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
 	type fields struct {
 		Parser Parser
 		Sender Sender
@@ -19,7 +26,62 @@ func TestDriver_Drive(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "successfully drive",
+			fields: fields{
+				Parser: func() Parser {
+					mock := NewMockParser(ctrl)
+					mock.EXPECT().Parse(gomock.Any()).Return(parser.Content{LinkURL: "https://notifier.example.com"}, nil)
+					return mock
+				}(),
+				Sender: func() Sender {
+					mock := NewMockSender(ctrl)
+					mock.EXPECT().Send(parser.Content{LinkURL: "https://notifier.example.com"}).Return(nil)
+					return mock
+				}(),
+			},
+			args: args{
+				r: &http.Request{},
+			},
+			wantErr: false,
+		},
+		{
+			name: "when parser is failed",
+			fields: fields{
+				Parser: func() Parser {
+					mock := NewMockParser(ctrl)
+					mock.EXPECT().Parse(gomock.Any()).Return(parser.Content{}, errors.New(""))
+					return mock
+				}(),
+				Sender: func() Sender {
+					mock := NewMockSender(ctrl)
+					return mock
+				}(),
+			},
+			args: args{
+				r: &http.Request{},
+			},
+			wantErr: true,
+		},
+		{
+			name: "when sender is failed",
+			fields: fields{
+				Parser: func() Parser {
+					mock := NewMockParser(ctrl)
+					mock.EXPECT().Parse(gomock.Any()).Return(parser.Content{LinkURL: "https://notifier.example.com"}, nil)
+					return mock
+				}(),
+				Sender: func() Sender {
+					mock := NewMockSender(ctrl)
+					mock.EXPECT().Send(parser.Content{LinkURL: "https://notifier.example.com"}).Return(errors.New(""))
+					return mock
+				}(),
+			},
+			args: args{
+				r: &http.Request{},
+			},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
