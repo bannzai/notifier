@@ -5,6 +5,7 @@ Follow the steps below.
 1. Create [slack app](https://api.slack.com/apps)
 1. [Configure OAuth Scopes](https://github.com/bannzai/notifier/tree/master/docs/SLACK_SETTINGS.md#Configure-OAuth-Scopes)
 1. [Configure NOTIFIER_SLACK_TOKEN](https://github.com/bannzai/notifier/tree/master/docs/SLACK_SETTINGS.md#Configure-NOTIFIER_SLACK_TOKEN)
+1. [Configure Yaml File](https://github.com/bannzai/notifier/tree/master/docs/NOTIFIER_YAML_SETTINGS.md)
 
 ### Configure OAuth Scopes
 In order to use Slack API, it is necessary to configure some **OAuth Scope** required for the [notifier](https://github.com/bannzai/notifier).
