@@ -3,6 +3,11 @@
 
 ### Example
 ```yaml
+id: owata
+github:
+  login: owata
+slack:
+  id: YYYYYYYYY
 id: bannzai
 github:
   login: bannzai
