@@ -1,5 +1,5 @@
 # notifier
-**notifier** connect to slack when any actions on GitHub
+**notifier** connect to Slack when any actions on GitHub
 
 ## Install
 Install with git clone.
@@ -13,6 +13,13 @@ $ go get -u github.com/bannzai/notifier
 ```
 
 ## Deploy
+### Settings
+Setting up other services is necessary to run **notifier** .
+Look below.
+
+- [Slack Settings Document](https://github.com/bannzai/notifier/tree/master/docs/SLACK_SETTINGS.md)
+- [GitHub Settings Document](https://github.com/bannzai/notifier/tree/master/docs/GITHUB_SETTINGS.md)
+
 ### Recommended
 notifier prepared heroku configurations.
 If you have heroku account and already login, you can exec make heroku command and deploy it. 
