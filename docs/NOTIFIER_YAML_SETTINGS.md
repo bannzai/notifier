@@ -9,7 +9,7 @@ github:
 slack:
   id: XXXXXXXXX
 ```
-Top level `id` is free word. It should to set unique name.
+Top level `id` is free word. It should be set unique name.
 
 ## GitHub
 GitHub settings should configure `github.login`.
